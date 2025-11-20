@@ -12,8 +12,11 @@ db.sqlite3
 *.pyd
 
 # Django static & media
+static/
 staticfiles/
 media/
+
+yolov8n.pt
 
 # Virtual environment
 venv/

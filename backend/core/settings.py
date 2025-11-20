@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'corsheaders',
     # local apps
     'accounts',
+    'detection',
+    'qa',
 ]
 
 MIDDLEWARE = [
