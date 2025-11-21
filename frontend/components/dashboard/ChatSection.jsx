@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Cookies from "js-cookie";
 import ChatMessageBubble from "./ChatMessageBubble";
-import API from "@/lib/api";
 import { askGemini } from "../../lib/api";
 
 export default function ChatSection({ imageId }) {
@@ -10,6 +10,7 @@ export default function ChatSection({ imageId }) {
   const [input, setInput] = useState("");
   const chatRef = useRef(null);
 
+  //  send message to backend
   const sendMessage = async () => {
     if (!input.trim()) return;
 
@@ -35,17 +36,24 @@ export default function ChatSection({ imageId }) {
 
   return (
     <div className="bg-white p-6 rounded-2xl shadow border border-gray-200 mt-8">
-
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
         <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl flex items-center justify-center">
-          <svg className="w-7 h-7 text-white" fill="none" strokeWidth="2.5" stroke="white" viewBox="0 0 24 24">
+          <svg
+            className="w-7 h-7 text-white"
+            fill="none"
+            strokeWidth="2.5"
+            stroke="white"
+            viewBox="0 0 24 24"
+          >
             <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path>
           </svg>
         </div>
         <div>
           <h3 className="font-bold text-lg">Ask Questions About Results</h3>
-          <p className="text-gray-500 text-sm -mt-1">Powered by Gemini 2.5 Flash</p>
+          <p className="text-gray-500 text-sm -mt-1">
+            Powered by Gemini 2.5 Flash
+          </p>
         </div>
       </div>
 
@@ -87,7 +95,6 @@ export default function ChatSection({ imageId }) {
           Send
         </button>
       </div>
-
     </div>
   );
 }

@@ -1,5 +1,11 @@
+import Cookies from "js-cookie";
+
+
 export default function ChatMessageBubble({ role, text }) {
   const isUser = role === "user";
+
+  // get username from cookies
+  const username = Cookies.get("username");
 
   return (
     <div className={`flex items-start gap-3 mb-5 ${isUser ? "flex-row-reverse" : ""}`}>
@@ -9,7 +15,7 @@ export default function ChatMessageBubble({ role, text }) {
         className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold text-white
         ${isUser ? "bg-gradient-to-br from-pink-500 to-rose-600" : "bg-gradient-to-br from-purple-500 to-purple-700"}`}
       >
-        {isUser ? "JD" : "AI"}
+        {isUser ? username?.slice(0, 2).toUpperCase() : "AI"}
       </div>
 
       {/* Bubble */}

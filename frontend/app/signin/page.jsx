@@ -13,10 +13,17 @@ export default function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const result = await loginUser(email, password);
-      Cookies.set("access", result.data.access);
-      Cookies.set("refresh", result.data.refresh);
+      // call login backend
+      const res = await loginUser(email, password);
+
+      // set cookies
+      Cookies.set("access", res.data.access);
+      Cookies.set("refresh", res.data.refresh);
+      Cookies.set("username", res.data.user.username);
+      Cookies.set("email", res.data.user.email);
+
       alert("Login successful!");
+      // redirect to dashboard page
       window.location.href = "/dashboard";
     } catch (err) {
         console.log(err)

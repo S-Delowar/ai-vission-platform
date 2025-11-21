@@ -14,10 +14,17 @@ export default function SignupPage() {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const result = await signupUser(email, username, password);
-      Cookies.set("access", result.data.access);
-      Cookies.set("refresh", result.data.refresh);
+      // call signup backend
+      const res = await signupUser(email, username, password);
+
+      // set cookies
+      Cookies.set("access", res.data.access);
+      Cookies.set("refresh", res.data.refresh);
+      Cookies.set("username", res.data.user.username);
+      Cookies.set("email", res.data.user.email);
+
       alert("Account created! You are now logged in.");
+      // redirect to dashboard page
       window.location.href = "/dashboard";
     } catch (err) {
       alert("Signup failed: " + err.message);
