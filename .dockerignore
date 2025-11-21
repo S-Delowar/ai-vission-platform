@@ -1,0 +1,97 @@
+# ============================
+# General OS / Editor Files
+# ============================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.idea/
+*.vscode/
+
+# ============================
+# Git
+# ============================
+.git/
+.gitignore
+
+# ============================
+# Python Cache
+# ============================
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ============================
+# Python Virtual Environments
+# ============================
+venv/
+env/
+.venv/
+env.bak/
+*.egg-info/
+*.egg
+
+# ============================
+# Node.js Dependencies
+# ============================
+node_modules/
+**/node_modules/
+
+# ============================
+# Next.js Build Artifacts
+# ============================
+.next/
+**/.next/
+out/
+**/out/
+dist/
+build/
+
+# ============================
+# Logs
+# ============================
+*.log
+logs/
+**/*.log
+
+# ============================
+# Django Static & Media
+# (collected outside container)
+# ============================
+staticfiles/
+media/
+backend/staticfiles/
+backend/media/
+
+# ============================
+# Databases (local dev only)
+# ============================
+*.sqlite3
+
+# ============================
+# Environment Files
+# (should never be sent to Docker)
+# ============================
+.env
+*.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+
+# ============================
+# YOLO / AI Model Files
+# (model downloaded inside Docker)
+# ============================
+*.pt
+*.pth
+*.onnx
+*.engine
+
+# Ultralytics cache
+ultralytics/
+**/ultralytics/
+.cache/
+root/.cache/
