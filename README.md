@@ -208,6 +208,11 @@ docker-compose logs  # check logs
 
 ---
 
+# ✔️ Final Notes
+This project demonstrates an end‑to‑end AI platform combining:
+- Computer Vision
+- Large Language Models
+- Backend engineering
 - Frontend interaction
 - Modern DevOps (Docker)
 
