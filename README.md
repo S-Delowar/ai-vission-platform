@@ -103,7 +103,7 @@ pip install -r requirements.txt
 
 ### 3. Configure environment variables (`backend/.env`)
 ```
-GEMINI_API_KEY=AIzaSyCgkYd0YjlJN_KV9LHH0juicCkQvjkdW08
+GEMINI_API_KEY=AIzaSyCgkYd0YjlJN_KV9LHH0juicCkQvjkdW08   # use this you have no apikey
 DB_NAME=postgres
 DB_USER=postgres
 DB_PASS=postgres
@@ -142,19 +142,25 @@ Front-end: **http://localhost:3000**
 
 # 🐳 Running with Docker Compose (Recommended)
 
-### 1. Build & run entire system
+### 1. Clone the Repository
+```bash
+git clone https://github.com/S-Delowar/ai-vission-platform.git
+cd ai-vission-platform
+```
+
+### 2. Build & run entire system
 ```bash
 docker-compose build
 docker-compose up -d
 docker-compose exec backend python manage.py migrate
 ```
 
-### 2. Services will be available at:
+### 3. Services will be available at:
 - Frontend → **http://localhost:3000**
 - Backend → **http://localhost:8000**
 - PostgreSQL → port **5432**
 
-### 3. Check containers
+### 4. Check containers
 ```bash
 docker-compose ps
 docker-compose logs  # check logs
@@ -206,4 +212,3 @@ docker-compose logs  # check logs
 - Modern DevOps (Docker)
 
 It is designed to be clean, scalable, and easy to deploy.
-
