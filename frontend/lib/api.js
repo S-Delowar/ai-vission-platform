@@ -36,6 +36,11 @@ export const uploadAndDetect = (formData) => {
   });
 }
 
+// ask gemini
+export const askGemini = (image_id, question) => { 
+  return API.post("/qa/", { image_id, question });
+}
+
 // Protected: Run YOLO detection
 // export const runDetection = (imageId) =>
 //     return API.post(`/detection/run/${imageId}/`);

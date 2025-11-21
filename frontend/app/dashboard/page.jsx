@@ -7,6 +7,7 @@ import AnnotatedImageCard from "../../components/dashboard/AnnotatedImageCard";
 import ResultsTable from "../../components/dashboard/ResultsTable";
 import { uploadAndDetect } from "../../lib/api";
 import SelectedImagePreview from "../../components/dashboard/SelectedImagePreview";
+import ChatSection from "../../components/dashboard/ChatSection";
 
 
 export default function Dashboard() {
@@ -14,6 +15,7 @@ export default function Dashboard() {
   const [preview, setPreview] = useState(null);
   const [annotated, setAnnotated] = useState(null);
   const [detections, setDetections] = useState([]);
+  const [imageId, setImageId] = useState(null);
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
 
   // Select image
@@ -42,6 +44,7 @@ export default function Dashboard() {
     console.log("Image upload response: ",res);
     setAnnotated(res.data.annotated);
     setDetections(res.data.detections);
+    setImageId(res.data.id);
   };
 
   // Sorting handler
@@ -85,6 +88,11 @@ export default function Dashboard() {
               sortBy={sortBy}
             />
           </div>
+        )}
+
+        {/* Chat section */}
+        {annotated && (
+          <ChatSection imageId={imageId} />
         )}
       </div>
     </div>
