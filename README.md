@@ -103,7 +103,7 @@ pip install -r requirements.txt
 
 ### 3. Configure environment variables (`backend/.env`)
 ```
-GEMINI_API_KEY=AIzaSyCgkYd0YjlJN_KV9LHH0juicCkQvjkdW08   # use this you have no apikey
+GEMINI_API_KEY=   # get your apikey from google ai studio
 DB_NAME=postgres
 DB_USER=postgres
 DB_PASS=postgres
