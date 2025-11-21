@@ -21,6 +21,7 @@ export default function LoginPage() {
       Cookies.set("refresh", res.data.refresh);
       Cookies.set("username", res.data.user.username);
       Cookies.set("email", res.data.user.email);
+      Cookies.set("data", res.data)
 
       alert("Login successful!");
       // redirect to dashboard page
