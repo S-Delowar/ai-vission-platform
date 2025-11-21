@@ -1,9 +1,9 @@
 from django.urls import path
 
-from detection.views import ImageUploadView, UploadDetailView
+from detection.views import uploadAndDetectView, detectionDetailView
 
 
 urlpatterns = [
-    path('upload/', ImageUploadView.as_view(), name='image-upload'),
-    path('upload/<int:pk>/', UploadDetailView.as_view(), name='detection-detail'),
+    path('detect/upload/', uploadAndDetectView.as_view(), name='upload-detect'),
+    path('detect/upload/<int:pk>/', detectionDetailView.as_view(), name='detection-detail'),
    ]

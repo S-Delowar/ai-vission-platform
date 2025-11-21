@@ -31,7 +31,7 @@ export const signupUser = (email, username, password) => {
 
 // Protected: Image upload and detect objects
 export const uploadAndDetect = (formData) => {
-    return API.post("/upload/", formData, {
+    return API.post("/detect/upload/", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 }
@@ -40,7 +40,3 @@ export const uploadAndDetect = (formData) => {
 export const askGemini = (image_id, question) => { 
   return API.post("/qa/", { image_id, question });
 }
-
-// Protected: Run YOLO detection
-// export const runDetection = (imageId) =>
-//     return API.post(`/detection/run/${imageId}/`);

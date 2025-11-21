@@ -10,7 +10,7 @@ from detection.yolo_utilities.yolo_detection import run_yolo_and_annotate
 # ====================
 # View- Image Upload and detect
 # ====================
-class ImageUploadView(APIView):
+class uploadAndDetectView(APIView):
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [permissions.IsAuthenticated,]
     
@@ -33,7 +33,7 @@ class ImageUploadView(APIView):
 # ====================
 # View - Get Image detail
 # ====================
-class UploadDetailView(APIView):
+class detectionDetailView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, pk):
         try:
