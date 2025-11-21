@@ -207,13 +207,3 @@ docker-compose logs  # check logs
 5. Returned to the frontend chat UI
 
 ---
-
-# ✔️ Final Notes
-This project demonstrates an end‑to‑end AI platform combining:
-- Computer Vision
-- Large Language Models
-- Backend engineering
-- Frontend interaction
-- Modern DevOps (Docker)
-
-It is designed to be clean, scalable, and easy to deploy.
