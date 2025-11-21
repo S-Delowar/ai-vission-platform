@@ -2,13 +2,13 @@ import os
 import cv2
 from django.conf import settings
 import numpy as np
-
 from detection.models import Detection
 from detection.yolo_utilities.yolo_loader import load_model 
 
-
+# Load yolo model
 yolo_model = load_model()
 
+# run detection
 def run_yolo_and_annotate(upload_instance):
     """
     run YOLO on the saved image, save annotated image, and create Detection objects.
@@ -18,8 +18,8 @@ def run_yolo_and_annotate(upload_instance):
     results = yolo_model(img_path)
     r = results[0]
     boxes = r.boxes
-    names = r.names if hasattr(r, "names") else None 
-    
+    names = r.names
+
     detections = []
     
     # read image using cv2 for annotation
@@ -27,13 +27,20 @@ def run_yolo_and_annotate(upload_instance):
     h, w = img.shape[:2]
     
     for i, box in enumerate(boxes):
-        xyxy = box.xyxy.numpy().tolist()[0] if hasattr(box.xyxy, "numpy") else box.xyxy.tolist()
+        bbox = box.xyxy[0].tolist()
+        # convert to rounded integers
+        x1, y1, x2, y2 = [round(v, 1) for v in bbox]
+
+        # ensure values stay within the image dimensions
+        x1 = max(0, min(x1, w - 1))
+        y1 = max(0, min(y1, h - 1))
+        x2 = max(0, min(x2, w - 1))
+        y2 = max(0, min(y2, h - 1))
+        
         conf = float(box.conf[0]) if hasattr(box.conf, "__len__") else float(box.conf)
+        conf = round(conf, 4)
         cls_id = int(box.cls[0]) if hasattr(box.cls, "__len__") else int(box.cls)
         class_name = names[cls_id] if names and cls_id in names else str(cls_id)
-        x1, y1, x2, y2 = xyxy
-        
-        # log = f"class name: {class_name}, confidence: {conf}, x1: {x1}, y1: {y1}, x2: {x2}, y2: {y2}"
         
         # Save detection
         det = Detection.objects.create(
@@ -56,10 +63,10 @@ def run_yolo_and_annotate(upload_instance):
             "y_max": y2,
         })
         
-        # draw bounding box on image
+        # draw annotation
         cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
         label = f"{class_name} {conf:.2f}"
-        cv2.putText(img, label, (int(x1), int(y1)-6), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255, 255, 255), 1)
+        cv2.putText(img, label, (int(x1), int(y1) - 6), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255,255,255), 1)
         
     # Save annotated image
     annotated_path = os.path.join(settings.MEDIA_ROOT, "annotated", f"anno_{upload_instance.id}.jpg")
