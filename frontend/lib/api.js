@@ -8,8 +8,8 @@ export const API = axios.create({
 // Attach token automatically
 API.interceptors.request.use((config) => {
     if (
-        config.url.includes("/auth/login/") ||
-        config.url.includes("/auth/register/")
+        config.url.includes("/auth/signin/") ||
+        config.url.includes("/auth/signup/")
     ) {
         return config; // do NOT attach token
     }
@@ -22,11 +22,11 @@ API.interceptors.request.use((config) => {
 
 // Auth
 export const loginUser = (email, password) => {
-    return API.post("/auth/login/", { email, password});
+    return API.post("/auth/signin/", { email, password});
 }
 
 export const signupUser = (email, username, password) => { 
-  return API.post("/auth/register/", { email, username, password });
+  return API.post("/auth/signup/", { email, username, password });
 }
 
 // Protected: Image upload and detect objects
