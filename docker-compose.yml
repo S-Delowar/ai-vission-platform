@@ -7,8 +7,6 @@ services:
     container_name: django-backend
     env_file:
       - ./backend/.env
-    volumes:
-      - ./backend:/app
     ports:
       - "8000:8000"
     depends_on:
@@ -18,8 +16,6 @@ services:
     build:
       context: ./frontend
     container_name: next-frontend
-    volumes:
-      - ./frontend:/app
     ports:
       - "3000:3000"
     depends_on:
