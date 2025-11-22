@@ -74,12 +74,12 @@ export default function ChatSection({ imageId }) {
       </div>
 
       {/* Input */}
-      <div className="flex gap-3">
+      <div className="flex flex-col md:flex-row gap-3 w-full">
         <input
           className="
-            flex-1 px-4 py-3 rounded-xl border border-gray-300
-            focus:outline-none focus:border-purple-500 focus:ring focus:ring-purple-200
-          "
+      flex-1 px-4 py-3 rounded-xl border border-gray-300
+      focus:outline-none focus:border-purple-500 focus:ring focus:ring-purple-200
+    "
           placeholder="Ask a question about the detected objects..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -88,9 +88,10 @@ export default function ChatSection({ imageId }) {
         <button
           onClick={sendMessage}
           className="
-            px-6 py-3 rounded-xl text-white font-semibold
-            bg-gradient-to-br from-purple-500 to-purple-700 cursor-pointer
-          "
+      px-6 py-3 rounded-xl text-white font-semibold
+      bg-gradient-to-br from-purple-500 to-purple-700 cursor-pointer
+      md:w-auto w-full
+    "
         >
           Send
         </button>
