@@ -148,7 +148,28 @@ git clone https://github.com/S-Delowar/ai-vission-platform.git
 cd ai-vission-platform
 ```
 
+### 2. Create Environment Variables
+Inside the backend folder, create a `.env` file:
+```bash
+cd backend
+touch .env
+```
+Add your database environment variables:
+```
+GEMINI_API_KEY=   # get your apikey from google ai studio
+DB_NAME=postgres
+DB_USER=postgres
+DB_PASS=postgres
+DB_HOST=db
+DB_PORT=5432
+```
+Then return to project root:
+```bash
+cd ..
+```
+
 ### 2. Build & run entire system
+From the project root, run:
 ```bash
 docker-compose build
 docker-compose up -d
@@ -156,9 +177,17 @@ docker-compose exec backend python manage.py migrate
 ```
 
 ### 3. Services will be available at:
-- Frontend → **http://localhost:3000**
-- Backend → **http://localhost:8000**
-- PostgreSQL → port **5432**
+
+#### **Frontend**
+- **Sign In:** http://localhost:3000/signin  
+- **Sign Up:** http://localhost:3000/signup  
+- **Dashboard:** http://localhost:3000/dashboard  
+
+#### **Backend**
+- **API Base URL:** http://localhost:8000
+
+#### **Database**
+- **PostgreSQL:** port **5432**
 
 ### 4. Check containers
 ```bash
