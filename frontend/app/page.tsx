@@ -1,13 +1,9 @@
-export default function Home() {
-  return (
-    <>
-    <h1 className="text-4xl font-bold text-green-500">
-      Tailwind Working!
-    </h1>
+import { redirect } from "next/navigation"
 
-    <h1>
-      Tailwind Working!
-    </h1>
-    </>
-  );
+export default function Home() {
+  redirect("/signup")
+  // return (
+  //   <>
+  //   </>
+  // );
 }

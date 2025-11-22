@@ -29,7 +29,7 @@ def run_yolo_and_annotate(upload_instance):
     for i, box in enumerate(boxes):
         bbox = box.xyxy[0].tolist()
         # convert to rounded integers
-        x1, y1, x2, y2 = [round(v, 1) for v in bbox]
+        x1, y1, x2, y2 = [round(v) for v in bbox]
 
         # ensure values stay within the image dimensions
         x1 = max(0, min(x1, w - 1))
@@ -38,7 +38,7 @@ def run_yolo_and_annotate(upload_instance):
         y2 = max(0, min(y2, h - 1))
         
         conf = float(box.conf[0]) if hasattr(box.conf, "__len__") else float(box.conf)
-        conf = round(conf, 4)
+        conf = round(conf, 3)
         cls_id = int(box.cls[0]) if hasattr(box.cls, "__len__") else int(box.cls)
         class_name = names[cls_id] if names and cls_id in names else str(cls_id)
         

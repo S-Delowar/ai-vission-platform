@@ -1,35 +1,39 @@
 import { NextResponse } from "next/server";
 
 export default function middleware(req) {
-  const access = req.cookies.get("access")?.value;
+  const access = req.cookies.get("access")?.value || null;
   const { pathname } = req.nextUrl;
 
-  const isAuthPage =
-    pathname.startsWith("/signin") || pathname.startsWith("/signup");
+  const isAuthPage = pathname === "/signin" || pathname === "/signup";
+  const isProtectedPage = pathname.startsWith("/dashboard");
 
-  // Handle Root Redirect
-  if (pathname === "/") {
-    // If logged in → dashboard
+  // AUTH PAGES (signin/signup)
+  if (isAuthPage) {
+    // If logged in, go to dashboard
     if (access) {
       return NextResponse.redirect(new URL("/dashboard", req.url));
     }
-    // If NOT logged in → signin
-    return NextResponse.redirect(new URL("/signin", req.url));
+    // Not logged in, allow signin/signup
+    return NextResponse.next();
   }
 
-  // If user is logged in, redirect them away from login/signup
-  if (isAuthPage && access) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+  // PROTECTED PAGE (/dashboard)
+  if (isProtectedPage) {
+    // If NOT logged in, go to signin
+    if (!access) {
+      return NextResponse.redirect(new URL("/signin", req.url));
+    }
+    return NextResponse.next();
   }
 
-  // If user is NOT logged in, block dashboard pages
-  if (pathname.startsWith("/dashboard") && !access) {
-    return NextResponse.redirect(new URL("/signin", req.url));
-  }
-
+  // ALL OTHER ROUTES
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/", "/signin", "/signup", "/dashboard"],
+  matcher: [
+    "/signin",
+    "/signup",
+    "/dashboard",
+  ],
 };

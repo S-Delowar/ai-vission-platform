@@ -1,3 +1,4 @@
+import json
 from google.genai import types
 
 from qa.gemini_client import get_gemini_client
@@ -13,54 +14,60 @@ def ask_gemini(question, detections):
     returns: assistant response text
     """
     # system prompt
-    system_instruction = (
-        f'''You are an AI assistant that analyzes object detection results.
+#     system_instruction = """
+# You are an AI assistant that analyzes object detection results.
 
-You are always provided structured YOLO detections (class name, confidence score, and bounding box coordinates). 
+# You are always provided structured YOLO detections. Answer carefully of the questions and give an explanation.
 
-Your job is to:
-1. Understand bounding boxes, including their width, height, and area.
-2. Identify which object is largest, smallest, or highest-confidence.
-3. Count objects based on conditions (e.g., “confidence above 85%”).
-4. Use ONLY the provided detections — do not hallucinate.
-5. Give short, accurate, well-structured answers.
-6. Explain briefly how you reached the answer, referencing detection values.
-7. If you have not answer about the question, say that you can not extract the answer. Do not leave with blank response (Important)
+# Rules:
+# 1. ALWAYS compute bounding box width, height, area EXACTLY.
+# 2. Identify largest/smallest objects based on area.
+# 3. Count objects correctly using confidence thresholds.
+# 4. ALWAYS base your answer ONLY on detections JSON.
+# 5. NEVER hallucinate classes or numbers.
+# 6. If answer cannot be computed → say: 
+#    "I cannot extract the answer from the provided detections."
+   
+# When calculating bounding box size:
+# - width = x_max – x_min
+# - height = y_max – y_min
+# - area = width × height
+# """
+    system_instruction = """
+    You are an AI assistant that analyzes YOLO detection results.
 
-When calculating bounding box size:
-- width = x_max – x_min
-- height = y_max – y_min
-- area = width × height
-
-If needed, sort objects by confidence, size, or class.'''
-
-    )
+    Rules:
+    - Use ONLY the provided detections.
+    - You MUST compute width, height, and area accurately.
+    - Keep answers short and direct (1–3 sentences).
+    - Provide a brief explanation (not step-by-step math).
+    - If the answer cannot be determined, say:
+    "I cannot extract the answer from the provided detections."
+    """
+    payload = {
+        "detections": detections,
+        "question": question
+    }
     
-    # build detection content
-    det_lines = []
-    for d in detections:
-        det_lines.append(f"class name: {d['class_name']} | confidence: {d['confidence']:.2f} | bounding box coordinates (bbox): [{d['x_min']:.1f},{d['y_min']:.1f},{d['x_max']:.1f},{d['y_max']:.1f}]")
-    detections_text = "\n".join(det_lines) if det_lines else "No detections."
+    prompt = json.dumps(payload)
+    
+    print(f"prompt: ===================\n{prompt}=n===========")
+    
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=[
+                {
+                    "role": "user",
+                    "parts": [{"text": prompt}]
+                }],
+            config=types.GenerateContentConfig(
+                system_instruction=system_instruction,
+                temperature=0.1,
+                max_output_tokens=300
+            )
+        )
 
-    prompt = (
-        f"DETECTIONS:\n{detections_text}\n\n"
-        f"QUESTION: {question}\n\n"
-        "Provide a short answer and explain how you derived it from the detections."
-    )  
-    
-    print(f"system-instruction: {system_instruction}")
-    print(f"=============\nprompt: {prompt}")
-        
-    config = types.GenerateContentConfig(
-        system_instruction= system_instruction,
-        temperature=0.1,
-        max_output_tokens=512
-    )
-    
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents= prompt,
-        config=config
-    )
-    
-    return response.text.strip()
+        return response.text.strip()
+    except:
+        return "I am getting troubled to answer. Try again."
