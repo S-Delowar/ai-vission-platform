@@ -13,26 +13,6 @@ def ask_gemini(question, detections):
     annotated_image_url: optional public URL to annotated image
     returns: assistant response text
     """
-    # system prompt
-#     system_instruction = """
-# You are an AI assistant that analyzes object detection results.
-
-# You are always provided structured YOLO detections. Answer carefully of the questions and give an explanation.
-
-# Rules:
-# 1. ALWAYS compute bounding box width, height, area EXACTLY.
-# 2. Identify largest/smallest objects based on area.
-# 3. Count objects correctly using confidence thresholds.
-# 4. ALWAYS base your answer ONLY on detections JSON.
-# 5. NEVER hallucinate classes or numbers.
-# 6. If answer cannot be computed → say: 
-#    "I cannot extract the answer from the provided detections."
-   
-# When calculating bounding box size:
-# - width = x_max – x_min
-# - height = y_max – y_min
-# - area = width × height
-# """
     system_instruction = """
     You are an AI assistant that analyzes YOLO detection results.
 
@@ -51,7 +31,7 @@ def ask_gemini(question, detections):
     
     prompt = json.dumps(payload)
     
-    print(f"prompt: ===================\n{prompt}=n===========")
+    # print(f"prompt: ===================\n{prompt}=n===========")
     
     try:
         response = client.models.generate_content(
